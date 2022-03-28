@@ -5,3 +5,6 @@
 - Create PDF files from the response data
 - Upload the PDf on a FTP server
 - Send the PDF per email
+
+## Steps
+<img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/steps.drawio.png />
