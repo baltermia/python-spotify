@@ -4,3 +4,8 @@
 </div>
 
 ### [Documentation](https://github.com/baltermia/spotify-to-pdf/tree/main/docs#main-documentation)
+
+## Imports
+```
+pip install spotipy
+```
