@@ -13,3 +13,26 @@ Spotify to PDF converts a Spotify playlist into a PDF file. After starting the P
 
 ## Template
 View the PDF template [here](https://github.com/baltermia/spotify-to-pdf/blob/main/docs/template.pdf).
+
+## Calling script
+Using all parameters:
+```
+spotify-to-pdf.py <playlist_id> <email> <username> <password>
+```
+
+Using default email:
+```
+spotify-to-pdf.py <playlist_id> <username> <password>
+```
+
+Using default credentials:
+```
+spotify-to-pdf.py <playlist-id> <email>
+```
+
+Using default credentials and default email:
+```
+spotify-to-pdf.py <playlist-id>
+```
+
+Default credentials are set in a seperate config file (json).
