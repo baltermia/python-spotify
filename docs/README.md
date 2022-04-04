@@ -54,7 +54,7 @@ sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_
 
 Get playlist
 ```python
-pl = sp.playlist(<playlist_id>)
+pl = sp.playlist("<playlist_id>")
 
 name = pl["name"]
 uri = pl["uri"]
