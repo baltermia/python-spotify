@@ -36,3 +36,27 @@ spotify-to-pdf.py <playlist-id>
 ```
 
 Default credentials are set in a seperate config file (json).
+
+## API Endpoints
+The request are being made with the opensource python library [spotipy](https://github.com/plamere/spotipy)
+
+### Using spotipy
+Importing:
+```python
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+```
+
+Authenticating
+```python
+sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id="<username>", client_secret="<password>"))
+```
+
+Get playlist
+```python
+pl = sp.playlist(<playlist_id>)
+
+name = pl["name"]
+uri = pl["uri"]
+# etc..
+```
