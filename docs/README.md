@@ -10,3 +10,6 @@ Spotify to PDF converts a Spotify playlist into a PDF file. After starting the P
 
 ## Steps
 <img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/steps.drawio.png />
+
+## Template
+View the PDF template [here](https://github.com/baltermia/spotify-to-pdf/blob/main/docs/template.pdf).
