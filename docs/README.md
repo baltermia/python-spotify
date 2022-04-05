@@ -1,4 +1,4 @@
-# Documentation
+<h1>Documentation</h1> <!-- using html instead of # prevents table of contents to include first header -->
 
 > This documentation is and should be written before any development starts
 
@@ -10,24 +10,26 @@ Spotify to PDF converts a Spotify playlist into a PDF file. After starting the P
 - [Steps](#steps)
 - [Template](#template)
 - [API](#api)
-- [Config file](#config-file)
-  - [Using `ConfigParser`](#using-configparser)
-    - [Read](#read)
-    - [Write / Update](#write--update)
-  - [File structure](#file-structure)
-- [Config Credentials](#config-credentials)
-  - [Spotify Credentials](#spotify-credentials)
-  - [SendGrid API Key](#sendgrid-api-key)
-  - [FTP Credentials](#ftp-credentials)
-- [Spotify API](#spotify-api)
-  - [Authorization](#authorization)
-  - [Get Playlist](#get-playlist)
-  - [Get songs](#get-songs)
-- [SendGrid API](#sendgrid-api)
-- [Save File on FTP](#save-file-on-ftp)
-- [Create PDF File](#create-pdf-file)
-- [PDF to Base64](#pdf-to-base64)
-- [File Parameters](#file-parameters)
+- [Config](#config)
+  - [Config file](#config-file)
+    - [Using `ConfigParser`](#using-configparser)
+      - [Read](#read)
+      - [Write / Update](#write--update)
+    - [File structure](#file-structure)
+  - [Config Credentials](#config-credentials)
+    - [Spotify Credentials](#spotify-credentials)
+    - [SendGrid API Key](#sendgrid-api-key)
+    - [FTP Credentials](#ftp-credentials)
+- [Python Modules](#python-modules)
+  - [Spotify API](#spotify-api)
+    - [Authorization](#authorization)
+    - [Get Playlist](#get-playlist)
+    - [Get songs](#get-songs)
+  - [SendGrid API](#sendgrid-api)
+    - [PDF to Base64](#pdf-to-base64)
+  - [Save File on FTP](#save-file-on-ftp)
+  - [Create PDF File](#create-pdf-file)
+  - [File Parameters](#file-parameters)
 
 ## Requirements
 - Use a public API
@@ -55,11 +57,13 @@ python spotify-to-pdf.py "<playlist-id>" "<email>"
 
 No credentials should be provided. All configuration data should be set in [config.ini](https://github.com/baltermia/spotify-to-pdf/tree/main/src/config_template.ini) config file.
 
-## Config file
+## Config
+
+### Config file
 
 Configuration files are being managed with the `ConfigParser` python library.
 
-### Using `ConfigParser`
+#### Using `ConfigParser`
 
 First import library and create object
 ```python
@@ -69,7 +73,7 @@ from configparser import ConfigParser
 config = ConfigParser()
 ```
 
-#### Read
+##### Read
 
 Then we read the file using a static path
 ```python
@@ -84,7 +88,7 @@ ftp = config["FTP"] # get section
 ip = ftp["ip"]      # get value
 ```
 
-#### Write / Update
+##### Write / Update
 
 Create a new section
 ```python
@@ -111,7 +115,7 @@ with open('config.ini', 'w') as conf:
     config.write(conf)
 ```
 
-### File structure
+#### File structure
 
 The config file should be saved under [src](https://github.com/baltermia/spotify-to-pdf/tree/main/src) as `config.ini`.
 
@@ -135,14 +139,14 @@ password =
 path =
 ```
 
-## Config Credentials
+### Config Credentials
 
 Following credentials are neccessary for the script:
 - Spotify App credentials (not login)
 - Mail Accout with SMTP
 - FTP Server login
 
-### Spotify Credentials
+#### Spotify Credentials
 
 Sending requests to the spotify api requires a access token. The spotify access token expires after some time, therefore a new token needs to be requested again after some time. 
 
@@ -150,25 +154,27 @@ The spotify acces_token can be requested using a spotify app login. This login i
 
 <img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/resources/spotify-credentials-flow.png width=500 />
 
-### SendGrid API Key
+#### SendGrid API Key
 
 To use the SendGrid API all we need is an api_key. We can get this when we create a 'Single Sender' and then generate a API key for that.
 
-### FTP Credentials
+#### FTP Credentials
 
 The FTP Server credentials are simple. Get the login details and the server address and port.
 Any FTP Server can be used, for this project https://bplaced.net is being used.
 
 We also set a `path` in the config. This leads to the directory on the FTP server where the files should be stored in.
 
-## Spotify API
+## Python Modules
+
+### Spotify API
 
 First, to do any web requests we need to import the `requests` module
 ```python
 import requests
 ```
 
-### Authorization
+#### Authorization
 
 After getting the spotify app credentials you can request a access token from the api. 
 
@@ -205,7 +211,7 @@ headers = {
 ```
 These headers are sent with every request to authorize the requests.
 
-### Get Playlist
+#### Get Playlist
 
 The only request besides authorization is getting the playlists. The request for this is quite easy, given that we have the playlist ID.
 
@@ -229,7 +235,7 @@ name = playlist.get("name")
 
 The rest of the playlist api endpoint (e.g. whole response body) can be found [here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-playlist)
 
-### Get songs
+#### Get songs
 
 The `playlist` json we got in the request [above](#get-playlist) does not include tracks. What it includes though is a url we can make another request to that returns all tracks.
 ```python
@@ -247,7 +253,7 @@ first = tracks[0].get("track")
 name = first.get("name")
 ```
 
-## SendGrid API
+### SendGrid API
 
 To send emails we use a tool named [SendGrid](https://sendgrid.com/). We can send emails using their API. The account creation process is very straightforward and well-documented on the site. We get the api-key from there.
 
@@ -275,7 +281,7 @@ message.attachment = Attachment(FileContent('<base64 encoded pdf>'),
     Disposition('attachment')
 ```
 
-Head to [PDF to Base64](#pdf-to-base64) to see how to convert a PDF file to a Base64 string.
+Head to [PDF to Base64](#pdf-to-base64) below to see how to convert a PDF file to a Base64 string.
 
 And finally we make the request
 ```python
@@ -286,7 +292,23 @@ client = SendGridAPIClient(api_key)
 response = sg.send(mail)
 ```
 
-## Save File on FTP
+#### PDF to Base64
+
+First we need the following import
+```python
+from base64 import b64encode
+```
+
+Then, we can easily convert the pdf to base64
+```python
+path = "<pdf-location>"
+
+with open(path, "rb") as pdf_file:
+    encoded = b64encode(pdf_file.read())
+```
+The pdf is now encoded as base64 string in the `encoded` object.
+
+### Save File on FTP
 
 We don't use a API to save files on a FTP Server. (That would take the point of FTP)
 
@@ -325,7 +347,7 @@ If we don't need the `ftp` object anymore, we can close it
 ftp.close()
 ```
 
-## Create PDF File
+### Create PDF File
 
 For creating the PDF exports we use the library [FPDF](https://pyfpdf.readthedocs.io/). It adds a very simple API to python for creating pdf files.
 
@@ -366,23 +388,7 @@ Or you can get the bytestring
 pdf_bytes = pdf.output(dest="S")
 ```
 
-## PDF to Base64
-
-First we need the following import
-```python
-from base64 import b64encode
-```
-
-Then, we can easily convert the pdf to base64
-```python
-path = "<pdf-location>"
-
-with open(path, "rb") as pdf_file:
-    encoded = b64encode(pdf_file.read())
-```
-The pdf is now encoded as base64 string in the `encoded` object.
-
-## File Parameters
+### File Parameters
 You can access parameters that are given when calling the file like this:
 
 ```python
