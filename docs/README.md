@@ -2,6 +2,31 @@
 
 > This documentation is and should be written before any development starts
 
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Requirements](#requirements)
+- [Steps](#steps)
+- [Template](#template)
+- [API](#api)
+- [Config file](#config-file)
+  - [Using `ConfigParser`](#using-configparser)
+    - [Read](#read)
+    - [Write / Update](#write--update)
+  - [File structure](#file-structure)
+- [Config Credentials](#config-credentials)
+  - [Spotify Credentials](#spotify-credentials)
+  - [SendGrid API Key](#sendgrid-api-key)
+  - [FTP Credentials](#ftp-credentials)
+- [Spotify API](#spotify-api)
+  - [Authorization](#authorization)
+  - [Get Playlist](#get-playlist)
+  - [Get songs](#get-songs)
+- [SendGrid API](#sendgrid-api)
+- [Save File on FTP](#save-file-on-ftp)
+- [Create PDF File](#create-pdf-file)
+- [PDF to Base64](#pdf-to-base64)
+- [File Parameters](#file-parameters)
+
 Spotify to PDF converts a Spotify playlist into a PDF file. After starting the Python script the user will be prompted and asked for information to find the playlist he wants to be converted. He can either enter a link directly, a playlist name with the creator or just a keyword which the script will use to determine a playlist. Using the [Spotify API](https://developer.spotify.com/documentation/web-api/) all playlist data (playlist name, songs etc.) which is then written into a PDF file.
 
 ## Requirements
