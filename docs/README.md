@@ -97,12 +97,9 @@ cid =
 secret =
 token =
 
-# Credentials for email-account to send mails
+# API key for SendGrid API
 [EMAIL]
-mail = 
-password =
-smtp =
-port =
+api_key =
 
 # Credentials to connect to FTP server
 [FTP]
@@ -127,14 +124,9 @@ The spotify acces_token can be requested using a spotify app login. This login i
 
 <img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/resources/spotify-credentials-flow.png width=500 />
 
-### Mail Account with SMTP
+### SendGrid API Key
 
-Mails can be sent using a gmail account and the gmail smpt server & port.
-
-**Gmail SMPT Server:** `smtp.gmail.com`
-**Gmail SMPT Port:** `465` (port 465 when using ssl)
-
-The username and password are simply the email and account password. No app credentials are needed.
+To use the SendGrid API all we need is an api_key. We can get this when we create a 'Single Sender' and then generate a API key for that.
 
 ### FTP Credentials
 
@@ -255,6 +247,8 @@ message.attachment = Attachment(FileContent('<base64 encoded pdf>'),
     Disposition('attachment')
 ```
 
+Head to [PDF to Base64](#pdf-to-base64) to see how to convert a PDF file to a Base64 string.
+
 And finally we make the request
 ```python
 api_key = "<api-key>"
@@ -263,3 +257,19 @@ client = SendGridAPIClient(api_key)
 
 response = sg.send(mail)
 ```
+
+## PDF to Base64
+
+First we need the following import
+```python
+import base64
+```
+
+Then, we can easily convert the pdf to base64
+```python
+path = "<pdf-location>"
+
+with open(path, "rb") as pdf_file:
+    encoded = base64.b64encode(pdf_file.read())
+```
+The pdf is now encoded as base64 string in the `encoded` object.
