@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Config itself should be ignore, the template should be commited though
+config.ini

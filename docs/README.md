@@ -28,7 +28,7 @@ python spotify-to-pdf.py "<playlist-id>" "<email>"
 - **playlist-id**: ID of the playlist (found in url as _open.spotify.com/playlist/**playlist-id**_)
 - **email**: Where a mail should be sent to inculding the created PDF
 
-No credentials should be provided. All configuration data should be set in [config.ini](https://github.com/baltermia/spotify-to-pdf/tree/main/src/config.ini) config file.
+No credentials should be provided. All configuration data should be set in [config.ini](https://github.com/baltermia/spotify-to-pdf/tree/main/src/config_template.ini) config file.
 
 ## Config file
 
