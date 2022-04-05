@@ -38,7 +38,7 @@ Configuration files are being managed with the `ConfigParser` python library.
 
 First import library and create object
 ```python
-from configparser import configParser
+from configparser import ConfigParser
 
 # Create new object
 config = ConfigParser()
@@ -141,7 +141,7 @@ The username and password are simply the email and account password. No app cred
 The FTP Server credentials are simple. Get the login details and the server address and port.
 Any FTP Server can be used, for this project https://bplaced.net is being used.
 
-## Using Spotify API
+## Spotify API
 
 First, to do any web requests we need to import the `requests` module
 ```python
@@ -225,4 +225,41 @@ tracks = response.json().get("items")
 # Get first track
 first = tracks[0].get("track")
 name = first.get("name")
+```
+
+## SendGrid API
+
+To send emails we use a tool named [SendGrid](https://sendgrid.com/). We can send emails using their API. The account creation process is very straightforward and well-documented on the site. We get the api-key from there.
+
+To use the api, we first import the required modules
+```python
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+```
+
+Then we can easily create a new mail
+```python
+mail = Mail(
+    from_email='sender@main',
+    to_emails='reciever@other',
+    subject='SendGrid Email. Yay',
+    html_content='<strong>This is your HTML content</strong>')
+)
+```
+
+You can also add a attachment
+```python
+message.attachment = Attachment(FileContent('<base64 encoded pdf>'),
+    FileName('<filename>.pdf'),
+    FileType('application/pdf'),
+    Disposition('attachment')
+```
+
+And finally we make the request
+```python
+api_key = "<api-key>"
+
+client = SendGridAPIClient(api_key)
+
+response = sg.send(mail)
 ```
