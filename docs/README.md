@@ -23,6 +23,7 @@ Spotify to PDF converts a Spotify playlist into a PDF file. After starting the P
 - [Python Modules](#python-modules)
   - [Spotify API](#spotify-api)
     - [Authorization](#authorization)
+      - [Token Expiration](#token-expiration)
     - [Get Playlist](#get-playlist)
     - [Get songs](#get-songs)
   - [SendGrid API](#sendgrid-api)
@@ -125,6 +126,7 @@ The config file should be saved under [src](https://github.com/baltermia/spotify
 cid = 
 secret =
 token =
+token_expiration =
 
 # API key for SendGrid API
 [SENDGRID]
@@ -148,11 +150,13 @@ Following credentials are neccessary for the script:
 
 #### Spotify Credentials
 
-Sending requests to the spotify api requires a access token. The spotify access token expires after some time, therefore a new token needs to be requested again after some time. 
+Sending requests to the spotify api requires a access token. The spotify access token expires after 1 hour, therefore a new token needs to be requested again after some time. 
 
 The spotify acces_token can be requested using a spotify app login. This login is different from a regular spotify login. A app needs to be created under the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
 
 <img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/resources/spotify-credentials-flow.png width=500 />
+
+The `token_expiration` property holds the datetime value when the `token` expires.
 
 #### SendGrid API Key
 
@@ -201,7 +205,7 @@ And after that, we can get the access token from the json
 token = reponse.json().get("access_token")
 ```
 
-The response also includes a `expires_in` value. After the token expires, a new one needs to be requested. In the meantime, the token can be [stored in the config file](#write--update).
+The response also includes a `expires_in` value. After the token expires, a new one needs to be requested (see more under [Token Expiration](#token-expiration)). In the meantime, the token can be [stored in the config file](#write--update).
 
 In the end, a global `headers` dictionary should be created that contains the bearer token as authorization value
 ```python
@@ -210,6 +214,38 @@ headers = {
 }
 ```
 These headers are sent with every request to authorize the requests.
+
+##### Token Expiration
+
+The access token we recieve from the spotify accounts api expires after 1 hour. When we get a new token, we recieve a `expires_in` value. This holds the amount of seconds from now when the token will expire.
+
+We will convert this this to a datetime value that we willstore in the config file using [Config-Write/Update](#write--update). The script checks this date before any request, to make sure that the token is still valid.
+
+The following code will create us the datetime and parse it:
+
+First import the required modules
+```python
+from datetime import datetime, timedelta
+```
+
+Get the datetime object
+```python
+expiration = reponse.json().get("expires_in")
+
+date = datetime.now() + timedelta(seconds = expiration)
+
+# Here we would write the date into the config file
+```
+
+When reading the date from the config, we want to check if it is already past the curent time
+```python
+date_str = # get date from config
+
+exp_date = datetime.strptime(date_str)
+
+if datetime.now() >= exp_date:
+    # token expired. request a new one
+```
 
 #### Get Playlist
 
