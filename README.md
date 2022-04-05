@@ -7,5 +7,6 @@
 
 ## Imports
 ```
-pip install spotipy
+pip install configparser
+pip install sendgrid
 ```
