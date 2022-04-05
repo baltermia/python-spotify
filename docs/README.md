@@ -98,7 +98,7 @@ secret =
 token =
 
 # API key for SendGrid API
-[EMAIL]
+[SENDGRID]
 api_key =
 
 # Credentials to connect to FTP server
@@ -300,11 +300,52 @@ If we don't need the `ftp` object anymore, we can close it
 ftp.close()
 ```
 
+## Create PDF File
+
+For creating the PDF exports we use the library [FPDF](https://pyfpdf.readthedocs.io/). It adds a very simple API to python for creating pdf files.
+
+First we need to import the library
+```python
+from fpdf import FPDF
+```
+
+Then we create a new pdf object and add some properties to it
+```python
+pdf = FPDF() # Default is Portrait, A4
+
+pdf.set_font("<your-font>", "<weight>", "<size>")
+```
+
+Before we start adding things to the pdf, we have to add a page
+```python
+pdf.add_page()
+```
+
+Then we can easily add some text with margin to the topleft corner
+```python
+pdf.cell(40, 10, "<your-text>")
+``` 
+
+We can also add iamges
+```python
+pdf.image(name = "<img_url>", x = "<topleft-margin>", y = "<topleft-margin>", h = "<height>", width = "width")
+```
+
+Finally, we can save the pdf
+```python
+pdf.output("<path>")
+```
+
+Or you can get the bytestring
+```python
+pdf_bytes = pdf.output(dest="S")
+```
+
 ## PDF to Base64
 
 First we need the following import
 ```python
-import base64
+from base64 import b64encode
 ```
 
 Then, we can easily convert the pdf to base64
@@ -312,6 +353,6 @@ Then, we can easily convert the pdf to base64
 path = "<pdf-location>"
 
 with open(path, "rb") as pdf_file:
-    encoded = base64.b64encode(pdf_file.read())
+    encoded = b64encode(pdf_file.read())
 ```
 The pdf is now encoded as base64 string in the `encoded` object.
