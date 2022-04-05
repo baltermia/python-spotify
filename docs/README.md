@@ -9,7 +9,10 @@ Spotify to PDF converts a Spotify playlist into a PDF file. After starting the P
 - Send the PDF per email
 
 ## Steps
-<img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/steps.drawio.png />
+<details>
+    <summary>Click to show diagram</summary>
+    <img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/steps.drawio.png />
+</details>
 
 ## Template
 View the PDF template [here](https://github.com/baltermia/spotify-to-pdf/blob/main/docs/template.pdf).
@@ -47,7 +50,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 ```
 
-Authenticating
+Get spotify object with authentication
 ```python
 sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id="<username>", client_secret="<password>"))
 ```
