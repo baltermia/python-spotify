@@ -149,7 +149,7 @@ Sending requests to the spotify api requires a access token. The spotify access 
 
 The spotify acces_token can be requested using a spotify app login. This login is different from a regular spotify login. A app needs to be created under the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
 
-<img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/resources/spotify-credentials-flow.png width=200 />
+<img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/resources/spotify-credentials-flow.png width=500 />
 
 #### Request
 After getting the spotify app credentials you can request a access token from the api. 
