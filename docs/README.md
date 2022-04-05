@@ -30,30 +30,6 @@ python spotify-to-pdf.py "<playlist-id>" "<email>"
 
 No credentials should be provided. All configuration data should be set in [config.ini](https://github.com/baltermia/spotify-to-pdf/tree/main/src/config.ini) config file.
 
-## Using Spotify API
-The request are being made with the opensource python library [spotipy](https://github.com/plamere/spotipy)
-
-### Spotipy
-Importing:
-```python
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-```
-
-Get spotify object with authentication
-```python
-sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id="<username>", client_secret="<password>"))
-```
-
-Get playlist
-```python
-pl = sp.playlist("<playlist_id>")
-
-name = pl["name"]
-uri = pl["uri"]
-# etc..
-```
-
 ## Config file
 
 Configuration files are being managed with the `ConfigParser` python library.
@@ -65,7 +41,7 @@ First import library and create object
 from configparser import configParser
 
 # Create new object
-config = ConfigParser();
+config = ConfigParser()
 ```
 
 #### Read
@@ -79,8 +55,8 @@ config.read("config.ini")
 The config file has multiple sections. (See [File structure](#file-structure) below)
 Get a section and value
 ```python
-fdp = config["FDP"] # get section
-ip = fdp["ip"]      # get value
+ftp = config["FTP"] # get section
+ip = ftp["ip"]      # get value
 ```
 
 #### Write / Update
@@ -128,8 +104,8 @@ password =
 smtp =
 port =
 
-# Credentials to connect to FDP server
-[FDP]
+# Credentials to connect to FTP server
+[FTP]
 hostname = 
 port = 
 username = 
@@ -140,8 +116,8 @@ password =
 
 Following credentials are neccessary for the script:
 - Spotify App credentials (not login)
-- Gmail Account
-- FDP Server login
+- Mail Accout with SMTP
+- FTP Server login
 
 ### Spotify Credentials
 
@@ -151,10 +127,27 @@ The spotify acces_token can be requested using a spotify app login. This login i
 
 <img src=https://github.com/baltermia/spotify-to-pdf/blob/main/docs/resources/spotify-credentials-flow.png width=500 />
 
-#### Request
+### Mail Account with SMTP
+
+Mails can be sent using a gmail account and the gmail smpt server & port.
+
+**Gmail SMPT Server:** `smtp.gmail.com`
+**Gmail SMPT Port:** `465` (port 465 when using ssl)
+
+The username and password are simply the email and account password. No app credentials are needed.
+
+### FTP Credentials
+
+The FTP Server credentials are simple. Get the login details and the server address and port.
+Any FTP Server can be used, for this project https://bplaced.net is being used.
+
+## Using Spotify API
+
+### Authorization
+
 After getting the spotify app credentials you can request a access token from the api. 
 
-**URL**: https://accounts.spotify.com/api/token
+**URL:** https://accounts.spotify.com/api/token
 
 The credentials can be put in a dictionary:
 ```python
