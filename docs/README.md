@@ -143,6 +143,11 @@ Any FTP Server can be used, for this project https://bplaced.net is being used.
 
 ## Using Spotify API
 
+First, to do any web requests we need to import the `requests` module
+```python
+import requests
+```
+
 ### Authorization
 
 After getting the spotify app credentials you can request a access token from the api. 
@@ -159,3 +164,65 @@ data = {
 ```
 
 `grant_type` is always 'client_credentials' when using a app login.
+
+Then make a post request with the data
+```python
+reponse = requests.post("<auth_url>", data)
+```
+
+And after that, we can get the access token from the json
+```python
+token = reponse.json().get("access_token")
+```
+
+The response also includes a `expires_in` value. After the token expires, a new one needs to be requested. In the meantime, the token can be [stored in the config file](#write--update).
+
+In the end, a global `headers` dictionary should be created that contains the bearer token as authorization value
+```python
+headers = {
+    'Authorization': 'Bearer {}'.format(token)
+}
+```
+These headers are sent with every request to authorize the requests.
+
+### Get Playlist
+
+The only request besides authorization is getting the playlists. The request for this is quite easy, given that we have the playlist ID.
+
+First though, we set a base url that is used for every request
+```python
+base_url = "https://api.spotify.com/v1/"
+```
+
+Then we get the playlist
+```python
+playlist_id = "<some_id>"
+
+response = requests.get(base_url + "playlists/" + playlist_id, header = headers)
+
+# Whole response json
+playlist = response.json()
+
+# Get playlist name
+name = playlist.get("name")
+```
+
+The rest of the playlist api endpoint (e.g. whole response body) can be found [here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-playlist)
+
+### Get songs
+
+The `playlist` json we got in the request [above](#get-playlist) does not include tracks. What it includes though is a url we can make another request to that returns all tracks.
+```python
+tracks_url = playlist.get("tracks").get("href")
+```
+
+With this url we can make another request, that returns all the tracks of the playlist
+```python
+response = requests.get(track_url, headers = headers)
+
+tracks = response.json().get("items")
+
+# Get first track
+first = tracks[0].get("track")
+name = first.get("name")
+```
