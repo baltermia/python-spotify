@@ -367,8 +367,6 @@ second = sys.argv[1]
 
 There's a better way to handle arguments though
 ```python
-import sys
-
 def test(first, second):
     # Your code here    
     
