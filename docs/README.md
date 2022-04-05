@@ -272,7 +272,7 @@ from ftplib import FTP_TLS
 
 Then we can create a new ftp object
 ```python
-ftp = FTP()
+ftp = FTP_TLS()
 ```
 
 We can then conntect and login to that server
