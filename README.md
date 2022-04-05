@@ -3,7 +3,7 @@
   A python script that creates PDF Files from Spotify playlists.
 </div>
 
-### [Documentation](https://github.com/baltermia/spotify-to-pdf/tree/main/docs#main-documentation)
+### [Documentation](https://github.com/baltermia/spotify-to-pdf/tree/main/docs#documentation)
 
 ## Imports
 ```
