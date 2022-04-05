@@ -107,6 +107,7 @@ hostname =
 port = 
 username = 
 password =
+path =
 ```
 
 ## Config Credentials
@@ -132,6 +133,8 @@ To use the SendGrid API all we need is an api_key. We can get this when we creat
 
 The FTP Server credentials are simple. Get the login details and the server address and port.
 Any FTP Server can be used, for this project https://bplaced.net is being used.
+
+We also set a `path` in the config. This leads to the directory on the FTP server where the files should be stored in.
 
 ## Spotify API
 
@@ -256,6 +259,45 @@ api_key = "<api-key>"
 client = SendGridAPIClient(api_key)
 
 response = sg.send(mail)
+```
+
+## Save File on FTP
+
+We don't use a API to save files on a FTP Server. (That would take the point of FTP)
+
+First we import the library
+```python
+from ftplib import FTP
+```
+
+Then we can create a new ftp object
+```python
+ftp = FTP()
+```
+
+We can then conntect and login to that server
+```python
+ftp.connect("<hostname>", "<port>")
+
+ftp.login("<username>", "<password>")
+```
+
+And head into a directory
+```python
+ftp.cwd("<path>")
+```
+
+And finally save the pdf file
+```python
+path = "<pdf-location>"
+
+with open(path, "rb") as pdf_file:
+    ftp.storbinary("STOR <filename>", pdf_file)
+```
+
+If we don't need the `ftp` object anymore, we can close it
+```python
+ftp.close()
 ```
 
 ## PDF to Base64
