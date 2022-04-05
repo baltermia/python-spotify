@@ -13,7 +13,7 @@ pip install sendgrid
 
 ## Setup
 
-This program won't function on it's own. the [config.ini](https://github.com/baltermia/spotify-to-pdf/blob/main/src/config.ini) source file needs to be populated with values.
+This program won't wrok on its own. Please populate the [config.ini](https://github.com/baltermia/spotify-to-pdf/blob/main/src/config.ini) source file with the aqcuired credentials you get below.
 
 ### Spotify Credentials
 
