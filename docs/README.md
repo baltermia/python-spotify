@@ -267,7 +267,7 @@ We don't use a API to save files on a FTP Server. (That would take the point of 
 
 First we import the library
 ```python
-from ftplib import FTP
+from ftplib import FTP_TLS
 ```
 
 Then we can create a new ftp object
@@ -356,3 +356,27 @@ with open(path, "rb") as pdf_file:
     encoded = b64encode(pdf_file.read())
 ```
 The pdf is now encoded as base64 string in the `encoded` object.
+
+## File Parameters
+You can access parameters that are given when calling the file like this:
+
+```python
+first = sys.argv[0]
+second = sys.argv[1]
+```
+
+There's a better way to handle arguments though
+```python
+import sys
+
+def test(first, second):
+    # Your code here    
+    
+if __name__ == '__main__':   # will only run when the script is run directly (good practice)
+    test(sys.argv[0], sys.argv[1])
+```
+
+Remember to import the library
+```python
+import sys
+```
