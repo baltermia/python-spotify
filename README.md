@@ -5,15 +5,25 @@
 
 ### [Documentation](https://github.com/baltermia/spotify-to-pdf/tree/main/docs#documentation)
 
-## Imports
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Installing Modules](#installing-modules)
+- [Setup](#setup)
+  - [Create `Config.ini`](#create-configini)
+  - [Spotify Credentials](#spotify-credentials)
+  - [SendGrid API Key](#sendgrid-api-key)
+  - [FTP Server](#ftp-server)
+- [How to use](#how-to-use)
+
+## Installing Modules
 ```
-pip install configparser
-pip install sendgrid
+pip install configparser sendgrid requests ftplib fpdf
 ```
 
 ## Setup
 
-This program won't work on its own. Follow the steps below.
+This program won't work on its own. Follow the steps below to configure the program.
 
 ### Create `Config.ini`
 
@@ -44,3 +54,13 @@ If you're unsure on what to do, head to the [general](https://app.sendgrid.com/g
 You can use any FTP Server you would like. There are a lot of free services, one of them is [bplaced.net](https://www.bplaced.net/). 
 
 Go on the dashboard of your hosting service and get your hostname, port, username and password and paste them into the config file.
+
+## How to use
+
+Using the script is very easy. There's only a single input you have to make:
+```python
+python ./src/spotify-to-pdf.py "<playlist-id>" "<email>"
+```
+
+The `playlist-id` must be a valid ID. You can find a playlist's ID in the URL: _open.spotify.com/playlist/**\<playlist-id\>**_
+`email` can be any email address. The created PDF will be sent to that mail. 
