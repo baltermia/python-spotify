@@ -260,7 +260,7 @@ Then we get the playlist
 ```python
 playlist_id = "<some_id>"
 
-response = requests.get(base_url + "playlists/" + playlist_id, header = headers)
+response = requests.get(base_url + "playlists/" + playlist_id, headers = headers)
 
 # Whole response json
 playlist = response.json()
