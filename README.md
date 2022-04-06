@@ -18,7 +18,7 @@
 
 ## Installing Modules
 ```
-pip install configparser sendgrid requests ftplib fpdf
+pip install configparser sendgrid requests fpdf
 ```
 
 ## Setup
