@@ -5,9 +5,8 @@
 
 ### [Documentation](https://github.com/baltermia/spotify-to-pdf/tree/main/docs#documentation)
 
-## Table of Contents
+<h2>Table of Contents</h2>
 
-- [Table of Contents](#table-of-contents)
 - [Installing Modules](#installing-modules)
 - [Setup](#setup)
   - [Create `Config.ini`](#create-configini)
