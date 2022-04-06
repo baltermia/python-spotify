@@ -1,5 +1,5 @@
 <div align=center>
-  <h1>🎉Spotify to PDF</h1>Spotify to PDF
+  <h1>🎉Spotify to PDF</h1>
   A python script that creates PDF Files from Spotify playlists.
 </div>
 
