@@ -147,3 +147,6 @@ def create_pdf(json):
 
         page_track += 1
         current_track += 1
+
+    # Return base64 string of pdf
+    return pdf.output(dest="S")
