@@ -54,7 +54,7 @@ def create_pdf(json):
     pdf = FPDF()
     pdf.set_font('Helvetica', '', 16)
     pdf.add_page()
-    pdf.image('src/res/background.png', x = 0, y = 0, w = 210, h = 297, type = '', link = '')
+    pdf.image('res/background.png', x = 0, y = 0, w = 210, h = 297, type = '', link = '')
     pdf.set_text_color(255, 255, 255)
 
     # Set default variables
@@ -118,7 +118,7 @@ def create_pdf(json):
         # add new page if no space is avaliable for more tracks
         if (first_page and page_track > 8) or page_track > 13:
             pdf.add_page()
-            pdf.image('src/res/background.png', x = 0, y = 0, w = 210, h = 297, type = '', link = '')
+            pdf.image('res/background.png', x = 0, y = 0, w = 210, h = 297, type = '', link = '')
             page_track = 1
             first_page = False
 
