@@ -33,6 +33,16 @@ def millis_to_string(millis):
 
     return result
 
+def millis_to_duration(millis):
+    """
+    Taskes an amount of milli seconds and turns it into a string formatted like this: mins:seconds
+    """
+
+    # get from main method (minutes are calculated from hour, so they're not assigned to a variable)
+    hours, _, seconds = from_millis(millis)
+
+    return ("%d:%d" if seconds >= 10 else "%d:0%d" ) % (60 * hours, seconds)
+
 def latinify(str):
     """
     Removes special characters like emojis from the string (fpdf cant handle them) and returns it
@@ -82,3 +92,58 @@ def create_pdf(json):
     pdf.text(x = 100, y = 75, txt =  str(song_likes) + (" Likes" if song_likes != 1 else " Like"))
     pdf.text(x = 100, y = 85, txt = str(song_count) + (" Songs" if song_count != 1 else " Song"))
     pdf.text(x = 100, y = 95, txt = duration)
+
+    # vars for for loop
+    current_track = 1
+    page_track = 1
+    first_page = True
+
+    for track in tracks:
+        track = track["track"]
+
+        # Get json properties
+        track_name = latinify(track["name"])
+        track_duration = millis_to_duration(track["duration_ms"])
+        track_url = track["external_urls"]["spotify"]
+        track_img_url = track["album"]["images"][1]["url"]
+        track_artists = ""
+
+        # Join artists into string
+        for artist in track["artists"]:
+            if track_artists != "":
+                track_artists += ", "
+
+            track_artists += latinify(artist["name"])
+
+        # add new page if no space is avaliable for more tracks
+        if (first_page and page_track > 8) or page_track > 13:
+            pdf.add_page()
+            pdf.image('src/res/background.png', x = 0, y = 0, w = 210, h = 297, type = '', link = '')
+            page_track = 1
+            first_page = False
+
+        # calculate y pos for track
+        height = page_track * 20 + (105 if first_page else 10)
+        
+        # Add track number
+        pdf.text(x = 20, y = height, txt = str(current_track))
+        
+        # Add cover
+        pdf.image(name = track_img_url, x = 35, y = height - 10, h = 15, link = track_url)
+
+        # Track name 
+        pdf.set_font('Helvetica', '', 16)
+        pdf.text(x = 60, y = height - 3, txt = track_name)
+        
+        # track artis under name
+        pdf.set_font('Helvetica', '', 14)
+        pdf.set_text_color(179, 179, 179)
+        pdf.text(x = 60, y = height + 3, txt = track_artists)
+        pdf.set_text_color(255, 255, 255)
+        
+        # Add duration
+        pdf.set_font('Helvetica', '', 20)    
+        pdf.text(x = 180, y = height, txt = track_duration)
+
+        page_track += 1
+        current_track += 1
