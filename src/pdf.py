@@ -115,6 +115,9 @@ def create_pdf(json):
 
             track_artists += latinify(artist["name"])
 
+        if len(track_artists) >= 38:
+            track_artists = track_artists[0:38] + "..."
+
         # add new page if no space is avaliable for more tracks
         if (first_page and page_track > 8) or page_track > 13:
             pdf.add_page()
