@@ -1,6 +1,7 @@
 from config import get_config, save_config
 import requests
 from datetime import datetime, timedelta
+from dateutil import parser
 
 def get_headers():
     def create_header(token):
@@ -13,7 +14,7 @@ def get_headers():
     expiration_date = c_spotify["token_expiration"]
 
     if expiration_date != "" and expiration_date != None and expiration_date.strip() != "":
-        if datetime.now() < datetime.strptime(c_spotify["token_expiration"], "%y-%m-%dT%H:%M:%S,%f"):
+        if datetime.now() < parser.isoparse(c_spotify["token_expiration"]):
             return create_header(c_spotify["token"])
 
     client_id = c_spotify["cid"]
@@ -31,8 +32,9 @@ def get_headers():
     expiration = response.json().get("expires_in")
 
     c_spotify["token"] = token
-    c_spotify["token_expiration"] = (datetime.now() + timedelta(seconds = expiration)).strftime("%y-%m-%dT%H:%M:%S,%f")
+    c_spotify["token_expiration"] = (datetime.now() + timedelta(seconds = expiration)).isoformat()
 
+    config["SPOTIFY"] = c_spotify
     save_config(config)
 
     return create_header(c_spotify["token"])
