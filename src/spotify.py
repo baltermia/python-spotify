@@ -3,13 +3,18 @@ import requests
 from datetime import datetime, timedelta
 
 def get_headers():
+    def create_header(token):
+        return {
+            'Authorization': 'Bearer {}'.format(token)
+        } 
+
     config = get_config()
     c_spotify = config["SPOTIFY"]
+    expiration_date = c_spotify["token_expiration"]
 
-    if datetime.now() < datetime.strptime(c_spotify["token_expiration"]):
-        return {
-            'Authorization': 'Bearer {}'.format(c_spotify["token"])
-        } 
+    if expiration_date != "" and expiration_date != None and expiration_date.strip() != "":
+        if datetime.now() < datetime.strptime(c_spotify["token_expiration"], "%y-%m-%dT%H:%M:%S,%f"):
+            return create_header(c_spotify["token"])
 
     client_id = c_spotify["cid"]
     client_secret = c_spotify["secret"]
@@ -26,13 +31,11 @@ def get_headers():
     expiration = response.json().get("expires_in")
 
     c_spotify["token"] = token
-    c_spotify["expiration"] = datetime.now() + timedelta(seconds = expiration)
+    c_spotify["token_expiration"] = (datetime.now() + timedelta(seconds = expiration)).strftime("%y-%m-%dT%H:%M:%S,%f")
 
-    save_config()
+    save_config(config)
 
-    return {
-        'Authorization': 'Bearer {}'.format(token)
-    }
+    return create_header(c_spotify["token"])
 
 def get_playlist(id):
     headers = get_headers()
