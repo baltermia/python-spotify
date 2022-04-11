@@ -14,6 +14,7 @@
   - [SendGrid API Key](#sendgrid-api-key)
   - [FTP Server](#ftp-server)
 - [How to use](#how-to-use)
+- [Example Output](#example-output)
 
 ## Installing Modules
 ```
@@ -63,3 +64,5 @@ python ./src/spotify-to-pdf.py "<playlist-id>" "<email>"
 
 The `playlist-id` must be a valid ID. You can find a playlist's ID in the URL: _open.spotify.com/playlist/**\<playlist-id\>**_
 `email` can be any email address. The created PDF will be sent to that mail. 
+
+## [Example Output](https://github.com/baltermia/spotify-to-pdf/blob/main/docs/example.pdf)
