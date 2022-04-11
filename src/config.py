@@ -9,9 +9,6 @@ def get_config(path = __configPath):
     return config
 
 def save_config(config, path = __configPath):
-    if config is not ConfigParser:
-        return
-
-    with open(__configPath, "w") as conf:
+    with open(path, "w") as conf:
         config.write(conf)
     return
