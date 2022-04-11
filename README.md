@@ -17,7 +17,7 @@
 
 ## Installing Modules
 ```
-pip install configparser sendgrid requests fpdf2
+pip install configparser sendgrid requests fpdf2 python-dateutil
 ```
 
 ## Setup
