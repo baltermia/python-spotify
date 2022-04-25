@@ -1,5 +1,4 @@
 import sys
-from venv import create
 from spotify import get_playlist
 from pdf import create_pdf
 import codecs
