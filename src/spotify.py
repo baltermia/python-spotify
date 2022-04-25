@@ -3,7 +3,7 @@ import requests
 from datetime import datetime, timedelta
 from dateutil import parser
 
-def get_headers():
+def __get_headers():
     def create_header(token):
         return {
             'Authorization': 'Bearer {}'.format(token)
@@ -40,7 +40,7 @@ def get_headers():
     return create_header(c_spotify["token"])
 
 def get_playlist(id):
-    headers = get_headers()
+    headers = __get_headers()
 
     response = requests.get("https://api.spotify.com/v1/playlists/" + id, headers = headers)
 
