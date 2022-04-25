@@ -1,6 +1,6 @@
 from fpdf import FPDF
 
-def from_millis(millis):
+def __from_millis(millis):
     """ 
     Task an amount of milliseconds and returns the calculated hours, seconds and minutes from it
     """
@@ -12,13 +12,13 @@ def from_millis(millis):
     # return tuple
     return hours, minutes, seconds
 
-def millis_to_string(millis):
+def __millis_to_string(millis):
     """
     Takes an amount of milli seconds and into a string formmated like this: 0h 0min 0s
     """
 
     # get from main method
-    hours, minutes, seconds = from_millis(millis)
+    hours, minutes, seconds = __from_millis(millis)
 
     # add seconds
     result = "%ds" % (seconds)
@@ -33,17 +33,17 @@ def millis_to_string(millis):
 
     return result
 
-def millis_to_duration(millis):
+def __millis_to_duration(millis):
     """
     Taskes an amount of milli seconds and turns it into a string formatted like this: mins:seconds
     """
 
     # get from main method (minutes are calculated from hour, so they're not assigned to a variable)
-    hours, _, seconds = from_millis(millis)
+    hours, _, seconds = __from_millis(millis)
 
     return ("%d:%d" if seconds >= 10 else "%d:0%d" ) % (60 * hours, seconds)
 
-def latinify(str):
+def __latinify(str):
     """
     Removes special characters like emojis from the string (fpdf cant handle them) and returns it
     """
@@ -68,13 +68,13 @@ def create_pdf(json):
     pdf.image(name = img_url, x = 20, y = 20, h = 75, link = pl_url)
 
     # Add playlist name
-    pl_name = latinify(json["name"])
+    pl_name = __latinify(json["name"])
 
     pdf.set_font('Helvetica', 'B', 44)
     pdf.text(x = 100, y = 45, txt = pl_name)
 
     # Add playlist properties
-    user_name = latinify(json["owner"]["display_name"])
+    user_name = __latinify(json["owner"]["display_name"])
     song_count = json["tracks"]["total"]
     song_likes = json["followers"]["total"]
     duration = 0
@@ -84,7 +84,7 @@ def create_pdf(json):
         duration += track["track"]["duration_ms"]
 
     # get duration string from milliseconds
-    duration = millis_to_string(duration)
+    duration = __millis_to_string(duration)
 
     # Create playlist properties next to playlist cover
     pdf.set_font('Helvetica', '', 20)
@@ -102,8 +102,8 @@ def create_pdf(json):
         track = track["track"]
 
         # Get json properties
-        track_name = latinify(track["name"])
-        track_duration = millis_to_duration(track["duration_ms"])
+        track_name = __latinify(track["name"])
+        track_duration = __millis_to_duration(track["duration_ms"])
         track_url = track["external_urls"]["spotify"]
         track_img_url = track["album"]["images"][1]["url"]
         track_artists = ""
@@ -113,7 +113,7 @@ def create_pdf(json):
             if track_artists != "":
                 track_artists += ", "
 
-            track_artists += latinify(artist["name"])
+            track_artists += __latinify(artist["name"])
 
         if len(track_artists) >= 38:
             track_artists = track_artists[0:38] + "..."
