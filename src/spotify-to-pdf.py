@@ -10,10 +10,11 @@ def main(args):
     
     playlist = get_playlist(pl_id)
     pdf = create_pdf(playlist)
+
     name = playlist["name"]
 
-    send_mail(email, name, pdf)
     save_pdf(pdf, name)
+    send_mail(email, name, pdf)
 
 if __name__ == '__main__':
     main(sys.argv)
