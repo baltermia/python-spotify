@@ -6,6 +6,8 @@ from base64 import b64encode
 def send_mail(emails, name, pdf):
     config = get_config()["SENDGRID"]
 
+    filename = name.replace(' ', '_')
+
     # create mail object
     message = Mail(
         from_email = "Spotify to PDF <{}>".format(config["email"]),
@@ -17,7 +19,7 @@ def send_mail(emails, name, pdf):
     # add pdf as attachment
     message.attachment = Attachment(
             FileContent(b64encode(pdf).decode()),
-            FileName(name + ".pdf"),
+            FileName(filename + ".pdf"),
             FileType("application/pdf"),
             Disposition("attachment")
         )
