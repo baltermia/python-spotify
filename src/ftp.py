@@ -1,4 +1,4 @@
-from ftplib import FTP_TLS
+from ftplib import FTP
 from config import get_config
 from datetime import datetime
 
@@ -7,7 +7,7 @@ def save_pdf(pdf, name):
     filename = "{}_{}.pdf".format(name, datetime.now().isoformat())
 
     config = get_config()["FTP"]
-    ftp = FTP_TLS()
+    ftp = FTP()
     
     # Connect to FTP Server and Login
     ftp.connect(config["hostname"], int(config["port"]))
