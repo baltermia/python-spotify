@@ -1,4 +1,5 @@
 from ftplib import FTP
+from time import sleep
 from config import get_config
 from datetime import datetime
 
@@ -10,8 +11,15 @@ def save_pdf(pdf, name):
     config = get_config()["FTP"]
     ftp = FTP()
     
-    # Connect to FTP Server and Login
-    ftp.connect(config["hostname"], int(config["port"]))
+    while True:
+        try:
+            # Connect to FTP Server and Login
+            ftp.connect(config["hostname"], int(config["port"]))
+            break
+        except ConnectionResetError:
+            sleep(500)
+
+    # Login
     ftp.login(config["username"], config["password"])
 
     # Head into dir
