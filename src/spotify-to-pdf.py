@@ -13,8 +13,8 @@ def main(args):
 
     name = playlist["name"]
 
-    save_pdf(pdf, name)
     send_mail(email, name, pdf)
+    save_pdf(pdf, name)
 
 if __name__ == '__main__':
     main(sys.argv)
