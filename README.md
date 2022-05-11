@@ -59,7 +59,9 @@ Go on the dashboard of your hosting service and get your hostname, port, usernam
 
 Using the script is very easy. There's only a single input you have to make:
 ```python
-python ./src/spotify-to-pdf.py "<playlist-id>" "<email>"
+cd src
+
+py ./spotify-to-pdf.py "<playlist-id>" "<email>"
 ```
 
 The `playlist-id` must be a valid ID. You can find a playlist's ID in the URL: _open.spotify.com/playlist/**\<playlist-id\>**_
