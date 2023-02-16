@@ -5,6 +5,8 @@ from mail import send_mail
 from ftp import save_ftp
 from storage import save_file
 
+__dirname = "__tmp__"
+
 def main(args):
     pl_id = args[1]
     email = args[2]
@@ -14,8 +16,9 @@ def main(args):
 
     name = playlist["name"]
 
+
     send_mail(email, name, pdf)
-    path = save_file(pdf, name, "pdf")
+    path = save_file(pdf, name, __dirname, "pdf")
     save_ftp(path)
 
 if __name__ == '__main__':
